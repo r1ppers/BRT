@@ -9,43 +9,43 @@
 
 int main()
 {
-    // Cглаживание ступенек пикселей
+    // CРіР»Р°Р¶РёРІР°РЅРёРµ СЃС‚СѓРїРµРЅРµРє РїРёРєСЃРµР»РµР№
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8; 
 
-    // Создаем главное окно приложения
+    // РЎРѕР·РґР°РµРј РіР»Р°РІРЅРѕРµ РѕРєРЅРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight, 32), "Red-Black Tree",
         sf::Style::Titlebar | sf::Style::Close, settings);
 
-    // Восстановление разрыва кадров
+    // Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ СЂР°Р·СЂС‹РІР° РєР°РґСЂРѕРІ
     window.setVerticalSyncEnabled(true);
 
-    // Создаем переменную таймера (нужен для плавной анимации)
+    // РЎРѕР·РґР°РµРј РїРµСЂРµРјРµРЅРЅСѓСЋ С‚Р°Р№РјРµСЂР° (РЅСѓР¶РµРЅ РґР»СЏ РїР»Р°РІРЅРѕР№ Р°РЅРёРјР°С†РёРё)
     sf::Clock clock;
     float time;
     int fps = 0;
 
-    // Темная тема
+    // РўРµРјРЅР°СЏ С‚РµРјР°
     bool turnOnDarkTheme = true;
 
-    // Обновление констант
+    // РћР±РЅРѕРІР»РµРЅРёРµ РєРѕРЅСЃС‚Р°РЅС‚
     UpdateConstants(turnOnDarkTheme);
 
-    // Главный цикл приложения
+    // Р“Р»Р°РІРЅС‹Р№ С†РёРєР» РїСЂРёР»РѕР¶РµРЅРёСЏ
     while (window.isOpen())
     {
         UpdateConstants(turnOnDarkTheme);
-        // Обрабатываем события в цикле
+        // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј СЃРѕР±С‹С‚РёСЏ РІ С†РёРєР»Рµ
         sf::Event event;
         while (window.pollEvent(event))
         {
-            // Кроме обычного способа наше окно будет закрываться по нажатию на Escape
+            // РљСЂРѕРјРµ РѕР±С‹С‡РЅРѕРіРѕ СЃРїРѕСЃРѕР±Р° РЅР°С€Рµ РѕРєРЅРѕ Р±СѓРґРµС‚ Р·Р°РєСЂС‹РІР°С‚СЊСЃСЏ РїРѕ РЅР°Р¶Р°С‚РёСЋ РЅР° Escape
             if (event.type == sf::Event::Closed ||
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
                 window.close();
         }
 
-        // Главные объекты
+        // Р“Р»Р°РІРЅС‹Рµ РѕР±СЉРµРєС‚С‹
         int x = 150;
         int y = 150;
         
@@ -53,24 +53,24 @@ int main()
         BallNode ballRed =   BallNode(fps - 5, red, &font);
         BallNode ballGreen = BallNode(fps - 10, green, &font);
 
-        // Определение темы для отображения
+        // РћРїСЂРµРґРµР»РµРЅРёРµ С‚РµРјС‹ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ
         if (turnOnDarkTheme) SetDarkTheme();
         else SetLightTheme();
 
-        // Очистка
+        // РћС‡РёСЃС‚РєР°
         window.clear(backgroundColor);
 
-        time = clock.getElapsedTime().asMilliseconds(); // время кадра
-        fps = 1000 / time;                              // кол-во кадров в секунду
+        time = clock.getElapsedTime().asMilliseconds(); // РІСЂРµРјСЏ РєР°РґСЂР°
+        fps = 1000 / time;                              // РєРѕР»-РІРѕ РєР°РґСЂРѕРІ РІ СЃРµРєСѓРЅРґСѓ
         clock.restart();
 
-        // Тут будут вызываться функции обновления и отрисовки объектов
-        window.setFramerateLimit(maxFPS); // ограничение частоты кадров
+        // РўСѓС‚ Р±СѓРґСѓС‚ РІС‹Р·С‹РІР°С‚СЊСЃСЏ С„СѓРЅРєС†РёРё РѕР±РЅРѕРІР»РµРЅРёСЏ Рё РѕС‚СЂРёСЃРѕРІРєРё РѕР±СЉРµРєС‚РѕРІ
+        window.setFramerateLimit(maxFPS); // РѕРіСЂР°РЅРёС‡РµРЅРёРµ С‡Р°СЃС‚РѕС‚С‹ РєР°РґСЂРѕРІ
 
         /*
-        std::cout << "\n\n=-=-=-=-=-=-=-=-=[красный]=-=-=-=-=-=-=-=-=" << std::endl;
+        std::cout << "\n\n=-=-=-=-=-=-=-=-=[РєСЂР°СЃРЅС‹Р№]=-=-=-=-=-=-=-=-=" << std::endl;
         BallNode::DrawConnection(ballBlack, ballRed, &window);
-        std::cout << "=-=-=-=-=-=-=-=-=[зеленый]=-=-=-=-=-=-=-=-=" << std::endl;
+        std::cout << "=-=-=-=-=-=-=-=-=[Р·РµР»РµРЅС‹Р№]=-=-=-=-=-=-=-=-=" << std::endl;
         BallNode::DrawConnection(ballBlack, ballGreen, &window);
         ballBlack.Draw(&window);
         ballRed.Draw(&window);
@@ -83,7 +83,7 @@ int main()
         //BallNode::DrawRight(ballBlack, ballGreen, &window);
         ShowFPS(fps,&window);
         
-        // Отрисовка
+        // РћС‚СЂРёСЃРѕРІРєР°
         window.display();
     }
 
