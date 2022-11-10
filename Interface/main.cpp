@@ -17,7 +17,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight, 32), "Red-Black Tree",
         sf::Style::Titlebar | sf::Style::Close, settings);
 
-    // Восстановление разрыва кадров
+    // Устранение разрыва кадров
     window.setVerticalSyncEnabled(true);
 
     // Создаем переменную таймера (нужен для плавной анимации)
@@ -46,9 +46,6 @@ int main()
         }
 
         // Главные объекты
-        int x = 150;
-        int y = 150;
-        
         BallNode ballBlack = BallNode(fps, black, &font, true);
         BallNode ballRed =   BallNode(fps - 5, red, &font);
         BallNode ballGreen = BallNode(fps - 10, green, &font);
@@ -67,20 +64,8 @@ int main()
         // Тут будут вызываться функции обновления и отрисовки объектов
         window.setFramerateLimit(maxFPS); // ограничение частоты кадров
 
-        /*
-        std::cout << "\n\n=-=-=-=-=-=-=-=-=[красный]=-=-=-=-=-=-=-=-=" << std::endl;
-        BallNode::DrawConnection(ballBlack, ballRed, &window);
-        std::cout << "=-=-=-=-=-=-=-=-=[зеленый]=-=-=-=-=-=-=-=-=" << std::endl;
-        BallNode::DrawConnection(ballBlack, ballGreen, &window);
-        ballBlack.Draw(&window);
-        ballRed.Draw(&window);
-        ballGreen.Draw(&window);
-        */
-
         ballBlack.DrawChilds(ballGreen, ballRed, &window);
 
-        //BallNode::DrawLeft(ballBlack,ballRed, &window);
-        //BallNode::DrawRight(ballBlack, ballGreen, &window);
         ShowFPS(fps,&window);
         
         // Отрисовка
