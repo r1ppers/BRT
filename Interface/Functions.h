@@ -22,7 +22,7 @@ void ShowFPS(int fps, sf::RenderWindow* window)
 
 int UpdateConstants(bool darkThemeTurnedOn = false)
 {
-    // Темная тема
+    // РўРµРјРЅР°СЏ С‚РµРјР°
     darkTheme = darkThemeTurnedOn;
 
     if (darkTheme)
@@ -33,7 +33,7 @@ int UpdateConstants(bool darkThemeTurnedOn = false)
     //borderColor = textColor;
     connectionColor = textColor;
 
-    // Подключение шрифта текста
+    // РџРѕРґРєР»СЋС‡РµРЅРёРµ С€СЂРёС„С‚Р° С‚РµРєСЃС‚Р°
     if (!font.loadFromFile("resources/consolas.ttf"))
         return EXIT_FAILURE;
 }
