@@ -1,4 +1,67 @@
-#pragma once
+#include <SFML/Graphics.hpp>
+#include <iostream>
+
+#include "Classes.h"
+#include "Constants.h"
+#include "Functions.h"
+
+
+
+int main()
+{
+    // CРіР»Р°Р¶РёРІР°РЅРёРµ СЃС‚СѓРїРµРЅРµРє РїРёРєСЃРµР»РµР№
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8; 
+
+    // РЎРѕР·РґР°РµРј РіР»Р°РІРЅРѕРµ РѕРєРЅРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight, 32), "Red-Black Tree",
+        sf::Style::Titlebar | sf::Style::Close, settings);
+
+    // Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ СЂР°Р·СЂС‹РІР° РєР°РґСЂРѕРІ
+    window.setVerticalSyncEnabled(true);
+
+    // РЎРѕР·РґР°РµРј РїРµСЂРµРјРµРЅРЅСѓСЋ С‚Р°Р№РјРµСЂР° (РЅСѓР¶РµРЅ РґР»СЏ РїР»Р°РІРЅРѕР№ Р°РЅРёРјР°С†РёРё)
+    sf::Clock clock;
+    float time;
+    int fps = 0;
+
+    // РўРµРјРЅР°СЏ С‚РµРјР°
+    bool turnOnDarkTheme = true;
+
+    // РћР±РЅРѕРІР»РµРЅРёРµ РєРѕРЅСЃС‚Р°РЅС‚
+    UpdateConstants(turnOnDarkTheme);
+
+    // Р“Р»Р°РІРЅС‹Р№ С†РёРєР» РїСЂРёР»РѕР¶РµРЅРёСЏ
+    while (window.isOpen())
+    {
+        UpdateConstants(turnOnDarkTheme);
+        // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј СЃРѕР±С‹С‚РёСЏ РІ С†РёРєР»Рµ
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            // РљСЂРѕРјРµ РѕР±С‹С‡РЅРѕРіРѕ СЃРїРѕСЃРѕР±Р° РЅР°С€Рµ РѕРєРЅРѕ Р±СѓРґРµС‚ Р·Р°РєСЂС‹РІР°С‚СЊСЃСЏ РїРѕ РЅР°Р¶Р°С‚РёСЋ РЅР° Escape
+            if (event.type == sf::Event::Closed ||
+                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
+                window.close();
+        }
+
+        // Р“Р»Р°РІРЅС‹Рµ РѕР±СЉРµРєС‚С‹
+        int x = 150;
+        int y = 150;
+        
+        BallNode ballBlack = BallNode(fps, black, &font, true);
+        BallNode ballRed =   BallNode(fps - 5, red, &font);
+        BallNode ballGreen = BallNode(fps - 10, green, &font);
+
+        // РћРїСЂРµРґРµР»РµРЅРёРµ С‚РµРјС‹ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ
+        if (turnOnDarkTheme) SetDarkTheme();
+        else SetLightTheme();
+
+        // РћС‡РёСЃС‚РєР°
+        window.clear(backgroundColor);
+
+        time = clock.getElapsedTime().asMilliseconds(); // РІСЂРµРјСЏ РєР°РґСЂР°
+        fps = 1000 / time;                              // РєРѕР»-РІРѕ#pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <cmath>
@@ -11,265 +74,292 @@
 class BallNode
 {
 private:
-	
+    
 
-	sf::Color ballColor;        // цвет круга
-	sf::RenderWindow* window;   // указатель на окно, нужен для отрисовки
-	sf::CircleShape mainCircle; // круг
-	sf::Text nodeData;          // данные узла для вывода
-	sf::Vector2f currentPos;    // текущая позиция в центре круга
-	sf::Font currentFont;       // шрифт
-	int data;                   // данные
-	int offsetX = 0;            // отклонение строки данных для значений меньше 100
+    sf::Color ballColor;        // С†РІРµС‚ РєСЂСѓРіР°
+    sf::RenderWindow* window;   // СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РѕРєРЅРѕ, РЅСѓР¶РµРЅ РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё
+    sf::CircleShape mainCircle; // РєСЂСѓРі
+    sf::Text nodeData;          // РґР°РЅРЅС‹Рµ СѓР·Р»Р° РґР»СЏ РІС‹РІРѕРґР°
+    sf::Vector2f currentPos;    // С‚РµРєСѓС‰Р°СЏ РїРѕР·РёС†РёСЏ РІ С†РµРЅС‚СЂРµ РєСЂСѓРіР°
+    sf::Font currentFont;       // С€СЂРёС„С‚
+    int data;                   // РґР°РЅРЅС‹Рµ
+    int offsetX = 0;            // РѕС‚РєР»РѕРЅРµРЅРёРµ СЃС‚СЂРѕРєРё РґР°РЅРЅС‹С… РґР»СЏ Р·РЅР°С‡РµРЅРёР№ РјРµРЅСЊС€Рµ 100
 
-	//sf::RectangleShape point;
+    //sf::RectangleShape point;
 
 public:
 
-	// установка координат через целые числа
-	void SetPosition(int x, int y)
-	{
-		
-		mainCircle.setPosition(x - radius, y - radius);
-		nodeData.setPosition(x - radius / 2 + offsetX, y - radius / 2);
-		currentPos.x = x; // центрирование координат
-		currentPos.y = y; // центрирование координат
-	}
-	
-	// установление координат через вектор
-	void SetPosition(sf::Vector2f position)
-	{
-		mainCircle.setPosition(position.x - radius, position.y - radius);
-		nodeData.setPosition(position.x - radius / 2 + offsetX, position.y - radius / 2);
-		currentPos.x = position.x; // центрирование координат
-		currentPos.y = position.y; // центрирование координат
-	}
+    // СѓСЃС‚Р°РЅРѕРІРєР° РєРѕРѕСЂРґРёРЅР°С‚ С‡РµСЂРµР· С†РµР»С‹Рµ С‡РёСЃР»Р°
+    void SetPosition(int x, int y)
+    {
+        
+        mainCircle.setPosition(x - radius, y - radius);
+        nodeData.setPosition(x - radius / 2 + offsetX, y - radius / 2);
+        currentPos.x = x; // С†РµРЅС‚СЂРёСЂРѕРІР°РЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚
+        currentPos.y = y; // С†РµРЅС‚СЂРёСЂРѕРІР°РЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚
+    }
+    
+    // СѓСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚ С‡РµСЂРµР· РІРµРєС‚РѕСЂ
+    void SetPosition(sf::Vector2f position)
+    {
+        mainCircle.setPosition(position.x - radius, position.y - radius);
+        nodeData.setPosition(position.x - radius / 2 + offsetX, position.y - radius / 2);
+        currentPos.x = position.x; // С†РµРЅС‚СЂРёСЂРѕРІР°РЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚
+        currentPos.y = position.y; // С†РµРЅС‚СЂРёСЂРѕРІР°РЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚
+    }
 
-	// получение текущей позиции через вектор
-	sf::Vector2f GetPosition()
-	{
-		return currentPos;
-	}
+    // РїРѕР»СѓС‡РµРЅРёРµ С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё С‡РµСЂРµР· РІРµРєС‚РѕСЂ
+    sf::Vector2f GetPosition()
+    {
+        return currentPos;
+    }
 
-	BallNode(int data, sf::Color ballColor, sf::Font *font, bool isHead = false)
-	{
-		int x = 0, y = 0;
-		//int x, y;
-		if (isHead)
-		{
-			x = windowWidth / 2;
-			y = radius * 2;
-		}
+    BallNode(int data, sf::Color ballColor, sf::Font *font, bool isHead = false)
+    {
+        int x = 0, y = 0;
+        //int x, y;
+        if (isHead)
+        {
+            x = windowWidth / 2;
+            y = radius * 2;
+        }
 
-		SetPosition(x, y);
+        SetPosition(x, y);
 
-		x -= radius; // центрирование координат
-		y -= radius; // центрирование координат
+        x -= radius; // С†РµРЅС‚СЂРёСЂРѕРІР°РЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚
+        y -= radius; // С†РµРЅС‚СЂРёСЂРѕРІР°РЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚
 
-		std::cout << "Текущая позиция ГОЛОВЫ: " << currentPos.x << "; " << currentPos.y << std::endl;
+        std::cout << "РўРµРєСѓС‰Р°СЏ РїРѕР·РёС†РёСЏ Р“РћР›РћР’Р«: " << currentPos.x << "; " << currentPos.y << std::endl;
 
-		/*
-		point.setSize(sf::Vector2f(1, 1));
-		point.setFillColor(green);
-		point.setPosition(currentPos);
-		*/
-
-
-		this->data = data;
-		this->ballColor = ballColor;
-		this->currentFont = *font;
-		
-		std::string strData = std::to_string(data);
-		
-		
-		for (int len = strData.length(); len < 3; len++)
-			offsetX += fontSize/4;
-		std::cout << "Смещение: " << offsetX << std::endl;
-		
-
-		mainCircle.setPosition(x, y);
-		mainCircle.setRadius(radius);
-		mainCircle.setFillColor(ballColor);
-		mainCircle.setOutlineThickness(borderSize);
-		mainCircle.setOutlineColor(borderColor);
-
-		nodeData.setFont(*font);
-		nodeData.setCharacterSize(fontSize);
-		nodeData.setPosition(x + radius / 2 + offsetX, y + radius / 2);
-		nodeData.setString(strData);
-		nodeData.setFillColor(textColor);
-		nodeData.setOutlineColor(textColor);
-		nodeData.setOutlineThickness(0.5);
-
-	}
-	
-	BallNode()
-	{
-
-	}
-
-	// отрисовка узла в виде круга
-	void Draw(sf::RenderWindow* window)
-	{
-		this->window = window;
-		window->draw(mainCircle);
-		window->draw(nodeData);
-		//window->draw(point);
-	}
-
-	// отрисовка соединения между узлами
-	void DrawConnection(BallNode child, sf::RenderWindow* window)
-	{
-		// координаты родительского узла
-		auto Parent = GetPosition();
-		// координаты потомка
-		auto Child = child.GetPosition();
-
-		setlocale(LC_ALL, "ru");
-		//std::cout << "Позиция родителя: " << Parent.x << ", " << Parent.y << std::endl;
-		
-		/*
-		float length = pow(pow(xParent - xChild, 2) + pow(yParent - yChild, 2), 0.5); 
-		float angleSin = fabs(yParent-yChild)/length; //в радианах
-
-		float grad = 180 / pi;
-		float angle = asin(angleSin) * grad;
-
-		if (xChild < xParent)
-			angle = -angle+180;
-
-		//float angleCos = (xParent * xChild + yParent * yChild) /
-		//	(pow(xParent * xParent + yParent * yParent, 0.5) * pow(xChild * xChild + yChild * yChild, 0.5));
-		//float angle = 90 - acos(angleCos) * grad;
-		
-
-		// дебаг
-		setlocale(LC_ALL, "ru");
-		std::cout << "Координаты родителя: " << xParent << ", " << yParent << std::endl;
-		std::cout << "Координаты потомка:  " << xChild << ", " << yChild << std::endl;
-		std::cout << "Длина соединения: " << length << std::endl;
-		//std::cout << "Косинус угла поворота: " << angleCos << std::endl;
-		std::cout << "Синус угла поворота: " << angleSin << std::endl;
-		std::cout << "Угол поворота в градусах: " << angle << std::endl;
-		
-		sf::Vector2f size(length, 5);
-
-		sf::RectangleShape connection;
-		connection.setFillColor(borderColor);
-		connection.setSize(size);
-		connection.setPosition(parent.GetPosition());
-		connection.rotate(angle);
-
-		window->draw(connection);
-		*/
-
-		/*
-		Я пытался реализовать отрисовку линии при помощи поворота прямоугольника, но у меня не вышло.
-		Потому было принято решение использовать sf::Vertex, однако фигура получается толщиной в 1 пиксель.
-		Этой фигуре нельзя придать бОльшую толщину, потому отрисовывается несколько линий рядом
-		с малой разницей в начальных координатах. Начальные и конечные точки каждой из пяти линий
-		находятся в порядке числа 5 на игральной кости,	чтобы при повороте под любым углом толщина линии оставалась 3 пикселя
-
-		В итоге получается набор фигур имеющий следующий вид:
-
-		                          о о
-		                         / о
-		                        / о о
-		                       / / /
-	                          / / /
-		                     / / /
-		                    / / /
-		                   о о /
-		                    о /
-		                   о о
-
-		*/
-
-		auto firstPoint = sf::Vertex(Parent);
-		auto lastPoint =  sf::Vertex(Child);
-
-		firstPoint.color = borderColor;
-		lastPoint.color =  borderColor;
-
-		sf::Vertex line[5][2];
-		for (int i = 0; i < 5; i++)
-		{
-			sf::Vertex elem[] = { firstPoint, lastPoint };
-			line[i][0] = elem[0];
-			line[i][1] = elem[1];
-		}
-
-		for (int i = 0; i < 2; i++)
-		{
-			line[1][i].position.x += 1;
-			line[1][i].position.y += 1;
-
-			line[2][i].position.x += 1;
-			line[2][i].position.y -= 1;
-
-			line[3][i].position.x -= 1;
-			line[3][i].position.y -= 1;
-			
-			line[4][i].position.x -= 1;
-			line[4][i].position.y += 1;
-		}
+        /*
+        point.setSize(sf::Vector2f(1, 1));
+        point.setFillColor(green);
+        point.setPosition(currentPos);
+        */
 
 
-		for (int i = 0; i < 5; i++)
-			window->draw(line[i], 2, sf::Lines);
+        this->data = data;
+        this->ballColor = ballColor;
+        this->currentFont = *font;
+        
+        std::string strData = std::to_string(data);
+        
+        
+        for (int len = strData.length(); len < 3; len++)
+            offsetX += fontSize/4;
+        std::cout << "РЎРјРµС‰РµРЅРёРµ: " << offsetX << std::endl;
+        
 
-		// дебаг
-		/*
-		std::cout << "\n\n" << std::endl;
-		for (int i = 0; i < 5; i++)
-		{
-			for (int j = 0; j < 2; j++)
-				std::cout << "line[" << i << "][" << j << "] = {"
-				<< line[i][j].position.x << ", " << line[i][j].position.y << "}" << std::endl;
-			std::cout << std::endl;
-		}
-		*/
-	}
+        mainCircle.setPosition(x, y);
+        mainCircle.setRadius(radius);
+        mainCircle.setFillColor(ballColor);
+        mainCircle.setOutlineThickness(borderSize);
+        mainCircle.setOutlineColor(borderColor);
 
-	// отрисовка левого потомка
-	void DrawLeft(int x, int y, BallNode left, sf::RenderWindow* window)
-	{
-		sf::Vector2f pos = currentPos;
-		pos.x = x;
-		pos.y = y;
+        nodeData.setFont(*font);
+        nodeData.setCharacterSize(fontSize);
+        nodeData.setPosition(x + radius / 2 + offsetX, y + radius / 2);
+        nodeData.setString(strData);
+        nodeData.setFillColor(textColor);
+        nodeData.setOutlineColor(textColor);
+        nodeData.setOutlineThickness(0.5);
 
-		left.SetPosition(pos);
+    }
+    
+    BallNode()
+    {
 
-		DrawConnection(left, window);
-		Draw(window);
-		left.Draw(window);
-	}
+    }
 
-	// отрисовка правого потомка
-	void DrawRight(int x, int y, BallNode right, sf::RenderWindow* window)
-	{
-		sf::Vector2f pos = currentPos;
-		pos.x = x;
-		pos.y = y;
+    // РѕС‚СЂРёСЃРѕРІРєР° СѓР·Р»Р° РІ РІРёРґРµ РєСЂСѓРіР°
+    void Draw(sf::RenderWindow* window)
+    {
+        this->window = window;
+        window->draw(mainCircle);
+        window->draw(nodeData);
+        //window->draw(point);
+    }
 
-		right.SetPosition(pos);
+    // РѕС‚СЂРёСЃРѕРІРєР° СЃРѕРµРґРёРЅРµРЅРёСЏ РјРµР¶РґСѓ СѓР·Р»Р°РјРё
+    void DrawConnection(BallNode child, sf::RenderWindow* window)
+    {
+        // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ СѓР·Р»Р°
+        auto Parent = GetPosition();
+        // РєРѕРѕСЂРґРёРЅР°С‚С‹ РїРѕС‚РѕРјРєР°
+        auto Child = child.GetPosition();
 
-		DrawConnection(right, window);
-		Draw(window);
-		right.Draw(window);
-	}
+        setlocale(LC_ALL, "ru");
+        //std::cout << "РџРѕР·РёС†РёСЏ СЂРѕРґРёС‚РµР»СЏ: " << Parent.x << ", " << Parent.y << std::endl;
+        
+        /*
+        float length = pow(pow(xParent - xChild, 2) + pow(yParent - yChild, 2), 0.5); 
+        float angleSin = fabs(yParent-yChild)/length; //РІ СЂР°РґРёР°РЅР°С…
 
-	// отрисовка обоих потомков
-	void DrawChilds(BallNode left, BallNode right, sf::RenderWindow* window)
-	{
-		left.SetPosition(GetPosition().x * 1.0 / 2, GetPosition().y + radius * 2);
-		right.SetPosition(GetPosition().x * 3.0 / 2, GetPosition().y + radius * 2);
+        float grad = 180 / pi;
+        float angle = asin(angleSin) * grad;
 
-		DrawConnection(left, window);
-		DrawConnection(right, window);
+        if (xChild < xParent)
+            angle = -angle+180;
 
-		Draw(window);
-		left.Draw(window);
-		right.Draw(window);
-	}
-};
+        //float angleCos = (xParent * xChild + yParent * yChild) /
+        //  (pow(xParent * xParent + yParent * yParent, 0.5) * pow(xChild * xChild + yChild * yChild, 0.5));
+        //float angle = 90 - acos(angleCos) * grad;
+        
+
+        // РґРµР±Р°Рі
+        setlocale(LC_ALL, "ru");
+        std::cout << "РљРѕРѕСЂРґРёРЅР°С‚С‹ СЂРѕРґРёС‚РµР»СЏ: " << xParent << ", " << yParent << std::endl;
+        std::cout << "РљРѕРѕСЂРґРёРЅР°С‚С‹ РїРѕС‚РѕРјРєР°:  " << xChild << ", " << yChild << std::endl;
+        std::cout << "Р”Р»РёРЅР° СЃРѕРµРґРёРЅРµРЅРёСЏ: " << length << std::endl;
+        //std::cout << "РљРѕСЃРёРЅСѓСЃ СѓРіР»Р° РїРѕРІРѕСЂРѕС‚Р°: " << angleCos << std::endl;
+        std::cout << "РЎРёРЅСѓСЃ СѓРіР»Р° РїРѕРІРѕСЂРѕС‚Р°: " << angleSin << std::endl;
+        std::cout << "РЈРіРѕР» РїРѕРІРѕСЂРѕС‚Р° РІ РіСЂР°РґСѓСЃР°С…: " << angle << std::endl;
+        
+        sf::Vector2f size(length, 5);
+
+        sf::RectangleShape connection;
+        connection.setFillColor(borderColor);
+        connection.setSize(size);
+        connection.setPosition(parent.GetPosition());
+        connection.rotate(angle);
+
+        window->draw(connection);
+        */
+
+        /*
+        РЇ РїС‹С‚Р°Р»СЃСЏ СЂРµР°Р»РёР·РѕРІР°С‚СЊ РѕС‚СЂРёСЃРѕРІРєСѓ Р»РёРЅРёРё РїСЂРё РїРѕРјРѕС‰Рё РїРѕРІРѕСЂРѕС‚Р° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°, РЅРѕ Сѓ РјРµРЅСЏ РЅРµ РІС‹С€Р»Рѕ.
+        РџРѕС‚РѕРјСѓ Р±С‹Р»Рѕ РїСЂРёРЅСЏС‚Рѕ СЂРµС€РµРЅРёРµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ sf::Vertex, РѕРґРЅР°РєРѕ С„РёРіСѓСЂР° РїРѕР»СѓС‡Р°РµС‚СЃСЏ С‚РѕР»С‰РёРЅРѕР№ РІ 1 РїРёРєСЃРµР»СЊ.
+        Р­С‚РѕР№ С„РёРіСѓСЂРµ РЅРµР»СЊР·СЏ РїСЂРёРґР°С‚СЊ Р±РћР»СЊС€СѓСЋ С‚РѕР»С‰РёРЅСѓ, РїРѕС‚РѕРјСѓ РѕС‚СЂРёСЃРѕРІС‹РІР°РµС‚СЃСЏ РЅРµСЃРєРѕР»СЊРєРѕ Р»РёРЅРёР№ СЂСЏРґРѕРј
+        СЃ РјР°Р»РѕР№ СЂР°Р·РЅРёС†РµР№ РІ РЅР°С‡Р°Р»СЊРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚Р°С…. РќР°С‡Р°Р»СЊРЅС‹Рµ Рё РєРѕРЅРµС‡РЅС‹Рµ С‚РѕС‡РєРё РєР°Р¶РґРѕР№ РёР· РїСЏС‚Рё Р»РёРЅРёР№
+        РЅР°С…РѕРґСЏС‚СЃСЏ РІ РїРѕСЂСЏРґРєРµ С‡РёСЃР»Р° 5 РЅР° РёРіСЂР°Р»СЊРЅРѕР№ РєРѕСЃС‚Рё, С‡С‚РѕР±С‹ РїСЂРё РїРѕРІРѕСЂРѕС‚Рµ РїРѕРґ Р»СЋР±С‹Рј СѓРіР»РѕРј С‚РѕР»С‰РёРЅР° Р»РёРЅРёРё РѕСЃС‚Р°РІР°Р»Р°СЃСЊ 3 РїРёРєСЃРµР»СЏ
+
+        Р’ РёС‚РѕРіРµ РїРѕР»СѓС‡Р°РµС‚СЃСЏ РЅР°Р±РѕСЂ С„РёРіСѓСЂ РёРјРµСЋС‰РёР№ СЃР»РµРґСѓСЋС‰РёР№ РІРёРґ:
+
+                                  Рѕ Рѕ
+                                 / Рѕ
+                                / Рѕ Рѕ
+                               / / /
+                              / / /
+                             / / /
+                            / / /
+                           Рѕ Рѕ /
+                            Рѕ /
+                           Рѕ Рѕ
+
+        */
+
+        auto firstPoint = sf::Vertex(Parent);
+        auto lastPoint =  sf::Vertex(Child);
+
+        firstPoint.color = borderColor;
+        lastPoint.color =  borderColor;
+
+        sf::Vertex line[5][2];
+        for (int i = 0; i < 5; i++)
+        {
+            sf::Vertex elem[] = { firstPoint, lastPoint };
+            line[i][0] = elem[0];
+            line[i][1] = elem[1];
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            line[1][i].position.x += 1;
+            line[1][i].position.y += 1;
+
+            line[2][i].position.x += 1;
+            line[2][i].position.y -= 1;
+
+            line[3][i].position.x -= 1;
+            line[3][i].position.y -= 1;
+            
+            line[4][i].position.x -= 1;
+            line[4][i].position.y += 1;
+        }
+
+
+        for (int i = 0; i < 5; i++)
+            window->draw(line[i], 2, sf::Lines);
+
+        // РґРµР±Р°Рі
+        /*
+        std::cout << "\n\n" << std::endl;
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 2; j++)
+                std::cout << "line[" << i << "][" << j << "] = {"
+                << line[i][j].position.x << ", " << line[i][j].position.y << "}" << std::endl;
+            std::cout << std::endl;
+        }
+        */
+    }
+
+    // РѕС‚СЂРёСЃРѕРІРєР° Р»РµРІРѕРіРѕ РїРѕС‚РѕРјРєР°
+    void DrawLeft(int x, int y, BallNode left, sf::RenderWindow* window)
+    {
+        sf::Vector2f pos = currentPos;
+        pos.x = x;
+        pos.y = y;
+
+        left.SetPosition(pos);
+
+        DrawConnection(left, window);
+        Draw(window);
+        left.Draw(window);
+    }
+
+    // РѕС‚СЂРёСЃРѕРІРєР° РїСЂР°РІРѕРіРѕ РїРѕС‚РѕРјРєР°
+    void DrawRight(int x, int y, BallNode right, sf::RenderWindow* window)
+    {
+        sf::Vector2f pos = currentPos;
+        pos.x = x;
+        pos.y = y;
+
+        right.SetPosition(pos);
+
+        DrawConnection(right, window);
+        Draw(window);
+        right.Draw(window);
+    }
+
+    // РѕС‚СЂРёСЃРѕРІРєР° РѕР±РѕРёС… РїРѕС‚РѕРјРєРѕРІ
+    void DrawChilds(BallNode left, BallNode right, sf::RenderWindow* window)
+    {
+        left.SetPosition(GetPosition().x * 1.0 / 2, GetPosition().y + radius * 2);
+        right.SetPosition(GetPosition().x * 3.0 / 2, GetPosition().y + radius * 2);
+
+        DrawConnection(left, window);
+        DrawConnection(right, window);
+
+        Draw(window);
+        left.Draw(window);
+        right.Draw(window);
+    }
+}; РєР°РґСЂРѕРІ РІ СЃРµРєСѓРЅРґСѓ
+        clock.restart();
+
+        // РўСѓС‚ Р±СѓРґСѓС‚ РІС‹Р·С‹РІР°С‚СЊСЃСЏ С„СѓРЅРєС†РёРё РѕР±РЅРѕРІР»РµРЅРёСЏ Рё РѕС‚СЂРёСЃРѕРІРєРё РѕР±СЉРµРєС‚РѕРІ
+        window.setFramerateLimit(maxFPS); // РѕРіСЂР°РЅРёС‡РµРЅРёРµ С‡Р°СЃС‚РѕС‚С‹ РєР°РґСЂРѕРІ
+
+        /*
+        std::cout << "\n\n=-=-=-=-=-=-=-=-=[РєСЂР°СЃРЅС‹Р№]=-=-=-=-=-=-=-=-=" << std::endl;
+        BallNode::DrawConnection(ballBlack, ballRed, &window);
+        std::cout << "=-=-=-=-=-=-=-=-=[Р·РµР»РµРЅС‹Р№]=-=-=-=-=-=-=-=-=" << std::endl;
+        BallNode::DrawConnection(ballBlack, ballGreen, &window);
+        ballBlack.Draw(&window);
+        ballRed.Draw(&window);
+        ballGreen.Draw(&window);
+        */
+
+        ballBlack.DrawChilds(ballGreen, ballRed, &window);
+
+        //BallNode::DrawLeft(ballBlack,ballRed, &window);
+        //BallNode::DrawRight(ballBlack, ballGreen, &window);
+        ShowFPS(fps,&window);
+        
+        // РћС‚СЂРёСЃРѕРІРєР°
+        window.display();
+    }
+
+    return EXIT_SUCCESS;
+}
