@@ -1,10 +1,12 @@
 #pragma once
 #include "Constants.h"
+
 void ShowFPS(int fps, sf::RenderWindow* window)
 {
     sf::Text strFPS;
     sf::RectangleShape background;
 
+    // строка отобрадение fps
     strFPS.setFont(font);
     strFPS.setFillColor(green);
     strFPS.setCharacterSize(12);
@@ -13,6 +15,7 @@ void ShowFPS(int fps, sf::RenderWindow* window)
     strFPS.setOutlineThickness(0.5);
     strFPS.setOutlineColor(green);
 
+    // фон строки
     background.setFillColor(sf::Color(0, 0, 0, 128));
     background.setSize(sf::Vector2f(50, 15));
 
@@ -30,7 +33,6 @@ int UpdateConstants(bool darkThemeTurnedOn = false)
     else
         backgroundColor = sf::Color(255, 255, 255);
 
-    //borderColor = textColor;
     connectionColor = textColor;
 
     // Подключение шрифта текста
