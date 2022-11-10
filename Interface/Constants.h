@@ -2,23 +2,23 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-// Размер главного окна
-const int windowWidth = 1280; // ширина
-const int windowHeight = 720; // высота
+// Р Р°Р·РјРµСЂ РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР°
+const int windowWidth = 1280; // С€РёСЂРёРЅР°
+const int windowHeight = 720; // РІС‹СЃРѕС‚Р°
 
-float radius = 20;            // радиус круга
-int fontSize = radius/1.5;    // размер шрифта
-int maxFPS = 15;              // максимальная частота обновления изображения
-bool darkTheme;               // включение темной темы
-int borderSize = 3;           // размер границы
-sf::Font font;                // шрифт
+float radius = 20;            // СЂР°РґРёСѓСЃ РєСЂСѓРіР°
+int fontSize = radius/1.5;    // СЂР°Р·РјРµСЂ С€СЂРёС„С‚Р°
+int maxFPS = 15;              // РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ С‡Р°СЃС‚РѕС‚Р° РѕР±РЅРѕРІР»РµРЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
+bool darkTheme;               // РІРєР»СЋС‡РµРЅРёРµ С‚РµРјРЅРѕР№ С‚РµРјС‹
+int borderSize = 3;           // СЂР°Р·РјРµСЂ РіСЂР°РЅРёС†С‹
+sf::Font font;                // С€СЂРёС„С‚
 
-//int borderSize = radius / 10; //размер границы
+//int borderSize = radius / 10; //СЂР°Р·РјРµСЂ РіСЂР°РЅРёС†С‹
 
-sf::Color borderColor = sf::Color(128,128,128); // цвет обводки круга
-sf::Color connectionColor;                      // цвет соединений между кругами
-sf::Color textColor = sf::Color(255,255,255);   // цвет теккста
-sf::Color backgroundColor;                      // цвет фона
+sf::Color borderColor = sf::Color(128,128,128); // С†РІРµС‚ РѕР±РІРѕРґРєРё РєСЂСѓРіР°
+sf::Color connectionColor;                      // С†РІРµС‚ СЃРѕРµРґРёРЅРµРЅРёР№ РјРµР¶РґСѓ РєСЂСѓРіР°РјРё
+sf::Color textColor = sf::Color(255,255,255);   // С†РІРµС‚ С‚РµРєРєСЃС‚Р°
+sf::Color backgroundColor;                      // С†РІРµС‚ С„РѕРЅР°
 
 sf::Color black = sf::Color(80, 80, 80);
 sf::Color red = sf::Color(200, 0, 0);
