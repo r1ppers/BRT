@@ -87,7 +87,7 @@ private:
     {
         Node* root = tree->getRoot();
         GetFullDepth(root);
-        root->sideDistance = GetMinDistance() * fullDepth;
+        root->sideDistance = GetMinDistance() * (fullDepth + 1);
     }
 
     static void Organize(Node* node)
@@ -168,76 +168,16 @@ public:
 
     void SetSideDistance(RBTree* tree)
     {
-        //работает, но плохо
-        //this->node->sideDistance = windowWidth / 3 / this->node->depth;
-
-        //в процессе
-        /*
-        GetFullDepth(root);
-
-        
-        int minimalDistance = GetMinDistance();
-
-        float tempDistance = minimalDistance;
-        if (fullDepth > 3)
-        {
-            tempDistance *= (fullDepth / 2);
-            minimalDistance = round(tempDistance);
-        }
-
-        if (fullDepth == this->node->depth)
-            this->node->sideDistance = minimalDistance;
-        else
-            this->node->sideDistance = (fullDepth - this->node->depth) * minimalDistance;
-
-        auto temp = this->node;
-        while (temp->parent)
-        {
-            this->node->parent->sideDistance = this->node->sideDistance * 2;
-            temp = temp->parent;
-        }
-        */
-        
-        /*
-        int minimalDistance = (1280 - radius * 3) / (pow(2, (fullDepth-1)) - 1);
-        int tempDistance;
-        if (node->depth == 1)
-            node->sideDistance = windowWidth / 4;
-        else
-        {
-            tempDistance = minimalDistance;
-            node->sideDistance = minimalDistance;
-
-
-            Node* temp = node;
-
-            if (temp && temp->parent)
-                while (temp->parent)
-                {
-                    temp->parent->sideDistance = temp->sideDistance * 2;
-                    temp = temp->parent;
-                }
-        }
-        */
-
         Node* rootNode = tree->getRoot();
 
         DefineHeadDistance(tree);
         Organize(rootNode);
-
-        /*
-        qDebug() << "-------------------";
-        qDebug() << "depth = " << this->node->depth;
-        qDebug() << "full depth = " << fullDepth;
-        qDebug() << "side distance = " << this->node->sideDistance;
-        */
     }
 
     //Получить координаты
     QPoint GetPosition()
     {
         return QPoint(this->node->position.x(), this->node->position.y());
-        //return QPoint(x, y);
     }
 
     //Установить цвет фона
@@ -297,12 +237,13 @@ public:
         QPen pen;
         pen.setColor(lineColor);
         pen.setWidth(lineWidth);
-        painter->setPen(pen);
 
         //Заливка
         QBrush brush;
         brush.setColor(backgroundColor);
         brush.setStyle(Qt::SolidPattern);
+
+        painter->setPen(pen);
         painter->setBrush(brush);
 
         int ellipsePosX = GetPosition().x() - radius + lineWidth / 2;

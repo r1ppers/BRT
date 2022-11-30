@@ -170,6 +170,7 @@ void MainWindow::paintEvent(QPaintEvent* event)
     
     auto scrollBarX = ui->horizontalScrollBar;
     auto scrollBarY = ui->verticalScrollBar;
+
     scrollBarX->setMaximum(maxOffsetX);
     scrollBarX->setMinimum(-maxOffsetX);
     scrollBarY->setMaximum(maxOffsetY);
@@ -181,8 +182,8 @@ void MainWindow::paintEvent(QPaintEvent* event)
     qDebug() << "offsetY = " << offsetY;
 
     //Антиалиасинг (сглаживание)
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::HighQualityAntialiasing);
+    //painter.setRenderHint(QPainter::Antialiasing);
+    //painter.setRenderHint(QPainter::HighQualityAntialiasing);
     
     Node* root = tree.getRoot();
 
@@ -199,6 +200,8 @@ void MainWindow::paintEvent(QPaintEvent* event)
     Node* rootNode = tree.getRoot();
     Node* node = tree.Search(inputData);
     int windowWidth = width();
+    int windowHeight = height();
+
     if (inputData != -99999)
     {
         if (fabs(rootNode->position.x() - node->position.x()) > windowWidth / 3)
@@ -207,6 +210,13 @@ void MainWindow::paintEvent(QPaintEvent* event)
             qDebug() << "rootNode->position.x() = " << rootNode->position.x();
             qDebug() << "node->position.x() = " << node->position.x();
             qDebug() << "max offset x = " << maxOffsetX;
+        }
+        if (fabs(rootNode->position.y() - node->position.y()) > windowHeight)
+        {
+            maxOffsetY = fabs(rootNode->position.y() - fabs(node->position.y())) - windowHeight;
+            qDebug() << "rootNode->position.y() = " << rootNode->position.y();
+            qDebug() << "node->position.y() = " << node->position.y();
+            qDebug() << "max offset y = " << maxOffsetY;
         }
     }
 
@@ -246,6 +256,11 @@ void MainWindow::on_lineEdit_editingFinished()
 
 void MainWindow::on_verticalScrollBar_valueChanged(int value)
 {
+    int posX = ui->horizontalScrollBar->value();
+    if (posX > maxOffsetX)
+        ui->horizontalScrollBar->setValue(maxOffsetX);
+
+
     this->repaint();
 }
 
