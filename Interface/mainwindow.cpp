@@ -23,6 +23,8 @@
 #include "unabletoremovenodefromthetree.h"
 #include "selectanaction.h"
 #include "valueoutofrange.h"
+#include "infowindow.h"
+#include "nodenotfound.h"
 
 
 int amountOfNodes = 0;
@@ -30,6 +32,8 @@ int arrNodes[512];
 
 bool insertNode = false;
 bool removeNode = false;
+bool findNode = false;
+
 int inputData = -99999;
 
 std::string deb = "";
@@ -86,9 +90,21 @@ void SetMaxOffset(Node* node)
 }
 
 
+void ResetColors(Node* foundNode, Node* node)
+{
+    if (node)
+    {
+        if (node != foundNode)
+            node->borderColor = DEFAULT;
+        ResetColors(foundNode, node->left);
+        ResetColors(foundNode, node->right);
+    }
+}
+
+
 void MainWindow::on_insertButton_clicked()
 {
-    if (!insertNode && !removeNode)
+    if (!insertNode && !removeNode && !findNode)
     {
         SelectAnAction selectAnAction;
         selectAnAction.setModal(true);
@@ -114,13 +130,15 @@ void MainWindow::on_insertButton_clicked()
             }
             else
             {
-                qDebug() << "root data: " << tree.getRoot()->data;
+                //qDebug() << "root data: " << tree.getRoot()->data;
                 //SetMaxOffset(tree.getRoot());
                 //qDebug() << "max offset: " << maxOffsetX;
-                
+                //this->repaint();
+                this->repaint();
+                this->repaint();
             }
         }
-        else if (removeNode)
+        if (removeNode)
         {
             amountOfNodes--;
 
@@ -134,17 +152,35 @@ void MainWindow::on_insertButton_clicked()
             else
             {
                 qDebug() << inputData << " succesfully removed";
+                this->repaint();
+                this->repaint();
+            }
+        }
+        if (findNode)
+        {
+            inputData = stoi(strData);
+            auto found = tree.Search(inputData);
+            if (found)
+            {
+                found->borderColor = FOUND;
+                ResetColors(found, tree.getRoot());
+                this->repaint();
+            }
+            else
+            {
+                nodeNotFound NodeNotFound;
+                NodeNotFound.setModal(true);
+                NodeNotFound.exec();
             }
         }
     }
-    this->repaint();
-    this->repaint();
 }
 
 
 void MainWindow::paintEvent(QPaintEvent* event)
 {
     Q_UNUSED(event);
+
     QPainter painter(this);
     painter.begin(this);
     //------------------------------[Рисование синусоиды]------------------------------//
@@ -202,7 +238,7 @@ void MainWindow::paintEvent(QPaintEvent* event)
     int windowWidth = width();
     int windowHeight = height();
 
-    if (inputData != -99999)
+    if (inputData != -99999 && node)
     {
         if (fabs(rootNode->position.x() - node->position.x()) > windowWidth / 3)
         {
@@ -228,6 +264,7 @@ void MainWindow::on_insertRadioButton_toggled(bool checked)
 {
     //qDebug() << "insert";
     removeNode = false;
+    findNode = false;
     insertNode = true;
 
 }
@@ -237,6 +274,7 @@ void MainWindow::on_removeRadioButton_toggled(bool checked)
 {
     //qDebug() << "remove";
     insertNode = false;
+    findNode = false;
     removeNode = true;
 
 }
@@ -244,6 +282,7 @@ void MainWindow::on_removeRadioButton_toggled(bool checked)
 
 void MainWindow::on_horizontalScrollBar_valueChanged(int value)
 {
+    
     this->repaint();
 }
 
@@ -256,11 +295,26 @@ void MainWindow::on_lineEdit_editingFinished()
 
 void MainWindow::on_verticalScrollBar_valueChanged(int value)
 {
-    int posX = ui->horizontalScrollBar->value();
-    if (posX > maxOffsetX)
+    
+    if (ui->horizontalScrollBar->value() > maxOffsetX)
         ui->horizontalScrollBar->setValue(maxOffsetX);
 
-
     this->repaint();
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    infoWindow InfoWindow;
+    InfoWindow.setModal(true);
+    InfoWindow.exec();
+}
+
+
+void MainWindow::on_radioButton_toggled(bool checked)
+{
+    removeNode = false;
+    insertNode = false;
+    findNode = true;
 }
 

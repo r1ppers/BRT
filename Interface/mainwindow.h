@@ -29,6 +29,10 @@ private slots:
 
     void on_verticalScrollBar_valueChanged(int value);
 
+    void on_pushButton_clicked();
+
+    void on_radioButton_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
 

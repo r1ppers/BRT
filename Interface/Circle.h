@@ -153,7 +153,11 @@ public:
                 this->backgroundColor = Red;
 
             this->data = to_string(node->data);
-            this->borderColor = lineColor;
+
+            if (this->node->borderColor == FOUND)
+                this->borderColor = BlueBorder;
+            else
+                this->borderColor = lineColor;
             this->windowWidth = windowWidth;
 
             if (node->parent == nullptr)
@@ -235,7 +239,8 @@ public:
 
         //Контур
         QPen pen;
-        pen.setColor(lineColor);
+        //pen.setColor(lineColor);
+        pen.setColor(this->borderColor);
         pen.setWidth(lineWidth);
 
         //Заливка

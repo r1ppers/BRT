@@ -33,8 +33,10 @@ public:
     QRadioButton *removeRadioButton;
     QLabel *label;
     QLabel *label_2;
+    QRadioButton *radioButton;
     QScrollBar *horizontalScrollBar;
     QScrollBar *verticalScrollBar;
+    QPushButton *pushButton;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -52,20 +54,20 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setGeometry(QRect(1070, 10, 181, 131));
+        groupBox->setGeometry(QRect(1070, 10, 181, 151));
         groupBox->setStyleSheet(QString::fromUtf8("border: 1px solid #393939;\n"
 "color: white;\n"
 "border-radius: 5px;"));
         lineEdit = new QLineEdit(groupBox);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        lineEdit->setGeometry(QRect(10, 70, 161, 21));
+        lineEdit->setGeometry(QRect(10, 90, 161, 21));
         lineEdit->setStyleSheet(QString::fromUtf8("background-color: rgb(38, 38, 38);\n"
 "border: none;"));
         lineEdit->setMaxLength(5);
         lineEdit->setDragEnabled(true);
         insertButton = new QPushButton(groupBox);
         insertButton->setObjectName(QString::fromUtf8("insertButton"));
-        insertButton->setGeometry(QRect(10, 100, 161, 21));
+        insertButton->setGeometry(QRect(10, 120, 161, 21));
         insertButton->setStyleSheet(QString::fromUtf8("#insertButton{\n"
 "	background-color: rgb(38, 38, 38);\n"
 "	border: none;\n"
@@ -88,34 +90,58 @@ public:
         removeRadioButton->setStyleSheet(QString::fromUtf8("border: none;"));
         label = new QLabel(groupBox);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(0, 0, 181, 131));
+        label->setGeometry(QRect(0, 0, 181, 151));
         label->setStyleSheet(QString::fromUtf8("background-color: #131313;\n"
 "border-radius: 5px;"));
         label_2 = new QLabel(groupBox);
         label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setGeometry(QRect(10, 0, 91, 16));
         label_2->setStyleSheet(QString::fromUtf8("border:none;"));
+        radioButton = new QRadioButton(groupBox);
+        radioButton->setObjectName(QString::fromUtf8("radioButton"));
+        radioButton->setGeometry(QRect(10, 60, 84, 21));
+        radioButton->setStyleSheet(QString::fromUtf8("border: none;"));
         label->raise();
         lineEdit->raise();
         insertButton->raise();
         insertRadioButton->raise();
         removeRadioButton->raise();
         label_2->raise();
+        radioButton->raise();
         horizontalScrollBar = new QScrollBar(centralwidget);
         horizontalScrollBar->setObjectName(QString::fromUtf8("horizontalScrollBar"));
         horizontalScrollBar->setGeometry(QRect(0, 701, 1261, 20));
-        horizontalScrollBar->setStyleSheet(QString::fromUtf8("#horizontalScrollBar\n"
-"{\n"
-"color: green;\n"
-"/*color: rgb(38, 38, 38);*/\n"
-"/*margin: 0px 0px 0px 0px;*/\n"
-"/*scrollbar-color: #262626 #131313*/\n"
-"}"));
+        horizontalScrollBar->setStyleSheet(QString::fromUtf8(""));
+        horizontalScrollBar->setMaximum(100);
+        horizontalScrollBar->setSingleStep(1);
+        horizontalScrollBar->setPageStep(1);
         horizontalScrollBar->setOrientation(Qt::Horizontal);
         verticalScrollBar = new QScrollBar(centralwidget);
         verticalScrollBar->setObjectName(QString::fromUtf8("verticalScrollBar"));
         verticalScrollBar->setGeometry(QRect(1260, 0, 21, 701));
         verticalScrollBar->setOrientation(Qt::Vertical);
+        pushButton = new QPushButton(centralwidget);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        pushButton->setGeometry(QRect(1220, 170, 31, 31));
+        QFont font;
+        font.setPointSize(14);
+        font.setBold(true);
+        font.setWeight(75);
+        pushButton->setFont(font);
+        pushButton->setStyleSheet(QString::fromUtf8("#pushButton{\n"
+"	color: #ffffff;\n"
+"	background-color: rgb(38, 38, 38);\n"
+"	border: none;\n"
+"	border-radius: 5px;\n"
+"}\n"
+"\n"
+"#pushButton:hover{\n"
+"	border: 1px solid #393939\n"
+"}\n"
+"\n"
+"#pushButton:pressed{\n"
+"	background-color: #393939;\n"
+"}"));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -133,6 +159,8 @@ public:
         removeRadioButton->setText(QApplication::translate("MainWindow", "\320\243\320\264\320\260\320\273\320\270\321\202\321\214", nullptr));
         label->setText(QString());
         label_2->setText(QApplication::translate("MainWindow", "\320\255\320\273\320\265\320\274\320\265\320\275\321\202 \320\264\320\265\321\200\320\265\320\262\320\260", nullptr));
+        radioButton->setText(QApplication::translate("MainWindow", "\320\237\320\276\320\270\321\201\320\272", nullptr));
+        pushButton->setText(QApplication::translate("MainWindow", "?", nullptr));
     } // retranslateUi
 
 };

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>infoWindow</class>
+ <widget class="QDialog" name="infoWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>480</width>
+    <height>210</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>480</width>
+    <height>210</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>480</width>
+    <height>210</height>
+   </size>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>380</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Помощь</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(19, 19, 19);</string>
+  </property>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>180</y>
+     <width>80</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#pushButton{
+	background-color: rgb(38, 38, 38);
+	border: none;
+	color:#ffffff;
+	border-radius: 5px;
+}
+
+#pushButton:hover{
+	border: 1px solid #393939
+}
+
+#pushButton:pressed{
+	background-color: #393939;
+}</string>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>461</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #ffffff;</string>
+   </property>
+   <property name="text">
+    <string>Чтобы добавить узел в дерево, нужно в правом верхнем углу окна нажать &quot;Добавить&quot;,
+затем в поле с надписью &quot;Введите значение&quot; ввести значение и нажать &quot;Выполнить&quot;.
+
+Чтобы удалить узел из дерева, нужно в правом верхнем углу окна нажать &quot;Удалить&quot;,
+затем в поле с надписью &quot;Введите значение&quot; ввести значение и нажать &quot;Выполнить&quot;.
+
+Чтобы найти узел в дереве, нужно в правом верхнем углу окна нажать &quot;Поиск&quot;,
+затем в поле с надписью &quot;Введите значение&quot; ввести значение и нажать &quot;Выполнить&quot;.
+Найденный узел будет обведен синим цветом.
+
+Дерево отобразится в центральной части окна.
+Если его размеры выйдут за пределы окна, используйте ползунки внизу и справа в окне</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
